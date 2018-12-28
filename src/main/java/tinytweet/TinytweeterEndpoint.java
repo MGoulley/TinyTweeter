@@ -98,15 +98,13 @@ public class TinytweeterEndpoint {
 		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
 		Utilisateur user = ofy().load().key(cleUser).now();
 	
-		Set<Utilisateur> abonnes = new HashSet<Utilisateur>();
+		Set<Long> tweetsID = new HashSet<Long>();
+		tweetsID.addAll(user.getMytweets()); // Ajoute les tweets de user
 		for(Long l : user.getFollowers()) {
 			Key<Utilisateur> cle = Key.create(Utilisateur.class, l);
 			Utilisateur u = ofy().load().key(cle).now();
-			abonnes.add(u);
+			tweetsID.addAll(u.getMytweets());
 		}
-		
-		Set<Long> tweetsID = new HashSet<Long>();
-		tweetsID.addAll(user.getMytweets()); // Ajoute les tweets de user
 		
 		List<Tweet> lst = new ArrayList<Tweet>();
 		for(Long l : tweetsID) {
