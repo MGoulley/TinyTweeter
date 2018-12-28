@@ -10,7 +10,13 @@ import tinytweet.Utilisateur;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 @Api(name = "tinytweeter")
 public class TinytweeterEndpoint {
@@ -40,6 +46,18 @@ public class TinytweeterEndpoint {
 							@Named("authorUsername") String username, 
 							@Named("message") String message) {
 		Tweet tweet = new Tweet(userID, username, message);
+		
+		
+		List<String> result = new ArrayList<String>();
+        Pattern p = Pattern.compile("\\#(\\S+)");
+        Matcher m = p.matcher(message);
+        while(m.find())
+        {
+            result.add(m.group(1));
+        }
+        
+        
+		System.out.println(result);
 		ofy().clear();
 		ofy().save().entity(tweet).now();
     	return tweet;
@@ -68,4 +86,20 @@ public class TinytweeterEndpoint {
     	return user;
     }
 	
+	@ApiMethod(name = "timeline", httpMethod = ApiMethod.HttpMethod.POST, path="users/{userID}/timeline")
+	public Set<Tweet> timeline(@Named("userID")Long userID) {
+		ofy().clear();		
+		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
+		Utilisateur user = ofy().load().key(cleUser).now();
+		Set<Long> abonnes = user.getAbonements();
+		Set<Long> tweets = new HashSet<Long>();
+		for(Long l : abonnes) {
+			Key<Utilisateur> cle = Key.create(Utilisateur.class, l);
+			Utilisateur u = ofy().load().key(cle).now();
+			tweets.addAll(u.getMytweets());
+		}
+		tweets.addAll(user.getMytweets());
+		
+    	return null;
+    }
 }
