@@ -1,5 +1,6 @@
 package tinytweet;
 
+import com.google.api.client.util.Lists;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
@@ -86,9 +87,7 @@ public class TinytweeterEndpoint {
             // Mise à jour du tweet avec les hashtags
             tweet.setHashtags(hastagsID);
             ofy().save().entity(tweet).now();
-        }
-        
-        
+        }  
         
 		// Ajout du tweet pour l'utilisateur
 		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
@@ -97,6 +96,16 @@ public class TinytweeterEndpoint {
 		ofy().save().entity(user).now();
     	return tweet;
     }
+	
+	@ApiMethod(name = "get_hashtag_tweets",  httpMethod = ApiMethod.HttpMethod.GET, path="hashtag/{hashtagID}") 
+    public List<Tweet> get_hashtag_tweets(@Named("hashtagID")Long hashtagID) {
+        ofy().clear();
+        
+        Key<Hashtag> cleHT = Key.create(Hashtag.class, hashtagID);
+		Hashtag ht = ofy().load().key(cleHT).now();
+        return Lists.newArrayList(ofy().load().type(Tweet.class).ids(ht.getTweets()).values());
+    }
+	
 	
 	@ApiMethod(name = "hashtags",  httpMethod = ApiMethod.HttpMethod.GET, path="hashtags") 
     public List<Hashtag> showhashtags() {
