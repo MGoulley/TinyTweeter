@@ -3,6 +3,7 @@ package tinytweet;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 
 import tinytweet.Utilisateur;
@@ -49,6 +50,19 @@ public class TinytweeterEndpoint {
 		ofy().clear();
 		List<Tweet> tweets = ofy().load().type(Tweet.class).list();
     	return tweets;
+    }
+	
+	@ApiMethod(name = "add_follow", httpMethod = ApiMethod.HttpMethod.POST, path="users/addFollow")
+	public Utilisateur addFollow(@Named("userID")Long userID, @Named("followID") Long followID) {
+		ofy().clear();
+		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
+		Utilisateur user = ofy().load().key(cleUser).now();
+		
+		Key<Utilisateur> cleFollower = Key.create(Utilisateur.class, followID);
+		Utilisateur follower = ofy().load().key(cleFollower).now();
+		
+		List<Tweet> tweets = ofy().load().type(Tweet.class).list();
+    	return null;
     }
 	
 }
