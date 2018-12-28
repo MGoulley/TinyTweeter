@@ -17,15 +17,18 @@ public class TinytweeterEndpoint {
         ObjectifyService.register(Utilisateur.class); // Fait connaître votre classe-entité à Objectify
     }
 	
-	@ApiMethod(name = "create_user", httpMethod = ApiMethod.HttpMethod.GET, path="users/create")
+	@ApiMethod(name = "create_user", httpMethod = ApiMethod.HttpMethod.POST, path="users/create")
     public Utilisateur createUtilisateur(@Named("username")String username) {
     	Utilisateur user = new Utilisateur(username);
+    	ofy().clear();
     	ofy().save().entity(user).now();
     	return user;
     }
 	
 	@ApiMethod(name = "users", httpMethod = ApiMethod.HttpMethod.GET, path="users/")
 	public List<Utilisateur> utilisateurs() {
-    	return ofy().load().type(Utilisateur.class).list();
+		ofy().clear();
+		List<Utilisateur> users = ofy().load().type(Utilisateur.class).list();
+    	return users;
     }
 }
