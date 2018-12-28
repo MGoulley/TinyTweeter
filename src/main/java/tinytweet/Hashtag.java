@@ -20,7 +20,7 @@ public class Hashtag {
 		this.hashtagID = null;
 		this.hashtag = hashtag;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Hashtag [hashtagID=" + hashtagID + ", hashtag=" + hashtag + "]";

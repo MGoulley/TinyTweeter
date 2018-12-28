@@ -45,27 +45,63 @@ public class TinytweeterEndpoint {
 	public Tweet createTweet(@Named("authorID")Long userID, 
 							@Named("authorUsername") String username, 
 							@Named("message") String message) {
+		ofy().clear();
+		
+		// Creation du tweet
 		Tweet tweet = new Tweet(userID, username, message);
+		ofy().save().entity(tweet).now();
 		
-		
+		// Recuperation des hashtags dans le tweet
 		List<String> result = new ArrayList<String>();
-        Pattern p = Pattern.compile("\\#(\\S+)");
+        Pattern p = Pattern.compile("\\#(\\S+)"); // regex pour obtenir les hastags
         Matcher m = p.matcher(message);
         while(m.find())
         {
             result.add(m.group(1));
         }
         
-		System.out.println(tweet);
-		ofy().clear();
-		ofy().save().entity(tweet).now();
-		
+        // Creation des hashtags ou ajout dans les hashtags existants
+        Set<Long> hastagsID = new HashSet<Long>();
+        if(!result.isEmpty()) {
+        	List<Hashtag> hashtags = ofy().load().type(Hashtag.class).list(); //  on récupère une seule fois la liste des hashtags
+            for(String s : result) {
+            	boolean found = false;
+            	for(int i = 0; i < hashtags.size(); i++) {
+            		if(s == hashtags.get(i).getHashtag()) {
+            			Hashtag ht = hashtags.get(i);
+            			ht.addTweet(tweet.tweetID);
+            			ofy().save().entity(ht).now();
+            			hastagsID.add(ht.hashtagID);
+            			found = true;
+            		}
+            	}
+            	// si le hashtag n'existe pas encore
+            	if(found == false) {
+            		Hashtag ht = new Hashtag(s);
+            		ht.addTweet(tweet.tweetID);
+            		ofy().save().entity(ht).now();
+        			hastagsID.add(ht.hashtagID);
+            	}
+            }
+        }
+        
+        // Mise à jour du tweet avec les hashtags
+        tweet.setHashtags(hastagsID);
+        ofy().save().entity(tweet).now();
+        
+		// Ajout du tweet pour l'utilisateur
 		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
 		Utilisateur user = ofy().load().key(cleUser).now();
-		user.addTweet(tweet.tweetID);
-		
+		user.addTweet(tweet.tweetID);	
 		ofy().save().entity(user).now();
     	return tweet;
+    }
+	
+	@ApiMethod(name = "hashtags",  httpMethod = ApiMethod.HttpMethod.GET, path="hashtags") 
+    public List<Hashtag> showhashtags() {
+        ofy().clear();
+        List<Hashtag> allhashtags = ofy().load().type(Hashtag.class).list();
+        return allhashtags;
     }
 	
 	@ApiMethod(name = "tweets", httpMethod = ApiMethod.HttpMethod.GET, path="tweets")
