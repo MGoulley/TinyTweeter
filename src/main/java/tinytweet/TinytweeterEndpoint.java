@@ -57,12 +57,15 @@ public class TinytweeterEndpoint {
 		ofy().clear();
 		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
 		Utilisateur user = ofy().load().key(cleUser).now();
-		
+		user.addAbonnement(followID);
+		System.out.println(user);
 		Key<Utilisateur> cleFollower = Key.create(Utilisateur.class, followID);
 		Utilisateur follower = ofy().load().key(cleFollower).now();
-		
-		List<Tweet> tweets = ofy().load().type(Tweet.class).list();
-    	return null;
+		follower.addFollower(userID);
+		System.out.println(user);
+		ofy().save().entity(user).now();
+		ofy().save().entity(follower).now();
+    	return user;
     }
 	
 }
