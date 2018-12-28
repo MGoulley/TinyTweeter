@@ -56,10 +56,15 @@ public class TinytweeterEndpoint {
             result.add(m.group(1));
         }
         
-        
-		System.out.println(result);
+		System.out.println(tweet);
 		ofy().clear();
 		ofy().save().entity(tweet).now();
+		
+		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
+		Utilisateur user = ofy().load().key(cleUser).now();
+		user.addTweet(tweet.tweetID);
+		
+		ofy().save().entity(user).now();
     	return tweet;
     }
 	
@@ -73,14 +78,15 @@ public class TinytweeterEndpoint {
 	@ApiMethod(name = "add_follow", httpMethod = ApiMethod.HttpMethod.POST, path="users/addFollow")
 	public Utilisateur addFollow(@Named("userID")Long userID, @Named("followID") Long followID) {
 		ofy().clear();
+		
 		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
 		Utilisateur user = ofy().load().key(cleUser).now();
 		user.addAbonnement(followID);
-		System.out.println(user);
+
 		Key<Utilisateur> cleFollower = Key.create(Utilisateur.class, followID);
 		Utilisateur follower = ofy().load().key(cleFollower).now();
 		follower.addFollower(userID);
-		System.out.println(user);
+
 		ofy().save().entity(user).now();
 		ofy().save().entity(follower).now();
     	return user;
@@ -91,17 +97,20 @@ public class TinytweeterEndpoint {
 		ofy().clear();		
 		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
 		Utilisateur user = ofy().load().key(cleUser).now();
-		Set<Long> abonnes = user.getAbonements();
-		Set<Long> tweets = new HashSet<Long>();
-		for(Long l : abonnes) {
+		System.out.println(user);
+	
+		Set<Utilisateur> abonnes = new HashSet<Utilisateur>();
+		for(Long l : user.getFollowers()) {
 			Key<Utilisateur> cle = Key.create(Utilisateur.class, l);
 			Utilisateur u = ofy().load().key(cle).now();
-			tweets.addAll(u.getMytweets());
+			abonnes.add(u);
 		}
-		tweets.addAll(user.getMytweets());
+		
+		Set<Long> tweetsID = new HashSet<Long>();
+		tweetsID.addAll(user.getMytweets()); // Ajoute les tweets de user
 		
 		List<Tweet> lst = new ArrayList<Tweet>();
-		for(Long l : tweets) {
+		for(Long l : tweetsID) {
 			lst.add(ofy().load().key(Key.create(Tweet.class, l)).now());
 		}
     	return lst;
