@@ -87,7 +87,7 @@ public class TinytweeterEndpoint {
     }
 	
 	@ApiMethod(name = "timeline", httpMethod = ApiMethod.HttpMethod.POST, path="users/{userID}/timeline")
-	public Set<Tweet> timeline(@Named("userID")Long userID) {
+	public List<Tweet> timeline(@Named("userID")Long userID) {
 		ofy().clear();		
 		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
 		Utilisateur user = ofy().load().key(cleUser).now();
@@ -100,6 +100,10 @@ public class TinytweeterEndpoint {
 		}
 		tweets.addAll(user.getMytweets());
 		
-    	return null;
+		List<Tweet> lst = new ArrayList<Tweet>();
+		for(Long l : tweets) {
+			lst.add(ofy().load().key(Key.create(Tweet.class, l)).now());
+		}
+    	return lst;
     }
 }
