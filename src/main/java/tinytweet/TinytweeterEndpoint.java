@@ -61,13 +61,13 @@ public class TinytweeterEndpoint {
         }
         
         // Creation des hashtags ou ajout dans les hashtags existants
-        Set<Long> hastagsID = new HashSet<Long>();
         if(!result.isEmpty()) {
+        	Set<Long> hastagsID = new HashSet<Long>();
         	List<Hashtag> hashtags = ofy().load().type(Hashtag.class).list(); //  on récupère une seule fois la liste des hashtags
             for(String s : result) {
             	boolean found = false;
             	for(int i = 0; i < hashtags.size(); i++) {
-            		if(s == hashtags.get(i).getHashtag()) {
+            		if(s.equals(hashtags.get(i).getHashtag())) {
             			Hashtag ht = hashtags.get(i);
             			ht.addTweet(tweet.tweetID);
             			ofy().save().entity(ht).now();
@@ -83,11 +83,12 @@ public class TinytweeterEndpoint {
         			hastagsID.add(ht.hashtagID);
             	}
             }
+            // Mise à jour du tweet avec les hashtags
+            tweet.setHashtags(hastagsID);
+            ofy().save().entity(tweet).now();
         }
         
-        // Mise à jour du tweet avec les hashtags
-        tweet.setHashtags(hastagsID);
-        ofy().save().entity(tweet).now();
+        
         
 		// Ajout du tweet pour l'utilisateur
 		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
