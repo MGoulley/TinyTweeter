@@ -4,10 +4,12 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
 @Entity
+@Cache(expirationSeconds=600)
 public class Tweet {
 	@Id Long tweetID;
 	private String auteur; // Accès plus facile !
