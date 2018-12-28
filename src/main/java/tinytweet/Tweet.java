@@ -18,6 +18,14 @@ public class Tweet {
 
 	public Tweet() {}
 	
+	public Tweet(Long auteurID, String auteur, String tweet) {
+		this.tweetID = null;
+		this.auteurID = auteurID;
+		this.auteur = auteur;
+		this.tweet = tweet;
+		this.date = new Date();
+	}
+	
 	public Tweet(Long auteurID, String auteur, String tweet, Date date, Set<Long> hashtags) {
 		this.tweetID = null;
 		this.auteurID = auteurID;
