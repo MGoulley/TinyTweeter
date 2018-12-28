@@ -97,7 +97,6 @@ public class TinytweeterEndpoint {
 		ofy().clear();		
 		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
 		Utilisateur user = ofy().load().key(cleUser).now();
-		System.out.println(user);
 	
 		Set<Utilisateur> abonnes = new HashSet<Utilisateur>();
 		for(Long l : user.getFollowers()) {
@@ -114,5 +113,18 @@ public class TinytweeterEndpoint {
 			lst.add(ofy().load().key(Key.create(Tweet.class, l)).now());
 		}
     	return lst;
+    }
+	
+	@ApiMethod(name = "resetALL", httpMethod = ApiMethod.HttpMethod.POST, path="resetall")
+	public void resetALL() {
+		ofy().clear();	
+		Iterable<Key<Utilisateur>> clesUsers = ofy().load().type(Utilisateur.class).keys().list();
+		ofy().delete().keys(clesUsers).now();
+		
+		Iterable<Key<Tweet>> clesTweets = ofy().load().type(Tweet.class).keys().list();
+		ofy().delete().keys(clesTweets).now();
+		
+		Iterable<Key<Hashtag>> cleshtag = ofy().load().type(Hashtag.class).keys().list();
+		ofy().delete().keys(cleshtag).now();
     }
 }
