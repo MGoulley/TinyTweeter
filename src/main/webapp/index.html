@@ -17,4 +17,12 @@
       </tr>
     </table>
   </body>
+  <script>
+    var init = function() {
+  	var rootApi = 'http://localhost:8080/_ah/api';
+  	gapi.client.load('tinytweeter', 'v1', function() {
+      console.log("api loaded");
+  	}, rootApi);}
+  </script>
+  <script src="https://apis.google.com/js/client.js?onload=init"></script> 
 </html>
