@@ -11,7 +11,7 @@
   <script src="app.js"></script>
 </head>
 
-<body ng-controller="Tinytwitt as twitt" style="margin : 15px;">
+<body ng-controller="Tinytwitter" style="margin : 15px;">
   <h1>Tiny Twitt</h1>
   <br>
   <form ng-submit="addUser()">
@@ -22,59 +22,12 @@
     <input class="btn btn-primary" type="submit" value="Add">
   </form>
   <br>
-  <br>
-  <form ng-submit="follow()">
-    <h2>Follow</h2>
-    <label>Followed username : </label>
-    <input class="form-control" ng-model="followed" />
-    <br>
-    <label>Follower username : </label>
-    <input class="form-control" ng-model="follower" />
-    <br>
-    <input class="btn btn-primary" type="submit" value="Follow">
-  </form>
-  <br>
-  <br>
-  <form ng-submit="sendMsg()">
-    <h2>Post Message</h2>
-    <label>Username : </label>
-    <input class="form-control" ng-model="sender" />
-    <br>
-    <label>Message : </label>
-    <textarea class="form-control" rows="2" ng-model="message"></textarea>
-    <br>
-    <br>
-    <input class="btn btn-primary" type="submit" value="Send">
-  </form>
-  <br>
-  <h4>Time : {{posttime}} ms</h4>
-  <br>
-  <br>
-  <br>
-  <form ng-submit="getMsg()">
-    <h2>Get Messages</h2>
-    <label>Username : </label>
-    <input class="form-control" ng-model="receiver" />
-    <br>
-    <input class="btn btn-primary" type="submit" value="Get">
-
-  </form>
-  <br>
-  <h4>Time : {{gettime}} ms</h4>
-  <br>
-  <br>
-  <br>
-  <div ng-repeat="x in tweets">
-    <h5>{{x.sender}}</h5>
-    <p>{{x.body.value}}</p>
-  </div>
-
-
-  <script>
+   <script>
     var init = function() {
-      console.log("init called");
-      window.init();
-    };
+  	var rootApi = 'http://localhost:8080/_ah/api';
+  	gapi.client.load('tinytweeter', 'v1', function() {
+      console.log("api loaded");
+  	}, rootApi);}
   </script>
 
   <script src="https://apis.google.com/js/client.js?onload=init"></script>

@@ -34,6 +34,7 @@ public class TinytweeterEndpoint {
     	Utilisateur user = new Utilisateur(username);
     	ofy().clear();
     	ofy().save().entity(user).now();
+    	System.out.println("Creation de: " + user);
     	return user;
     }
 	
