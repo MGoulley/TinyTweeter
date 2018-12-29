@@ -8,7 +8,6 @@ var app = angular.module('plunker', []).controller('Tinytwitter', ['$scope', '$w
       }).execute(
         function(resp) {
           console.log(resp);
-          $window.alert(resp.content);
         });
     }
 

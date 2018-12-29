@@ -24,10 +24,9 @@
   <br>
    <script>
     var init = function() {
-  	var rootApi = 'http://localhost:8080/_ah/api';
-  	gapi.client.load('tinytweeter', 'v1', function() {
-      console.log("api loaded");
-  	}, rootApi);}
+      console.log("init called");
+      window.init();
+    };
   </script>
 
   <script src="https://apis.google.com/js/client.js?onload=init"></script>
