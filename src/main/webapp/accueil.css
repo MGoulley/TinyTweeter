@@ -1,5 +1,7 @@
-body {
-    background-color: #2980b9;
+html {
+    height: 100%;
+    background-image: linear-gradient(to bottom, #ffffff -39%, #2980b9 91%);
+    font-family: "Courier New";
 }
 
 h1 {
@@ -28,4 +30,14 @@ td {
     flex-wrap: wrap; /* Optional. only if you want the items to wrap */
     justify-content: center; /* For horizontal alignment */
     align-items: center; /* For vertical alignment */
+}
+
+.submitbtn{
+    background-color: #74b9ff;
+    border-color: #0984e3; 
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 10px;
 }

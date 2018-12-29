@@ -30,8 +30,15 @@ public class TinytweeterEndpoint {
 	
 	@ApiMethod(name = "create_user", httpMethod = ApiMethod.HttpMethod.POST, path="users/create")
     public Utilisateur createUtilisateur(@Named("username")String username) {
-    	Utilisateur user = new Utilisateur(username);
-    	ofy().clear();
+		ofy().clear();
+		List<Utilisateur> users = ofy().load().type(Utilisateur.class).list();
+		for(Utilisateur u : users) {
+			if(u.username.equals(username)) {
+				System.out.println(u.getUsername() + " existe deja.");
+				return u;
+			}
+		}
+    	Utilisateur user = new Utilisateur(username);	
     	ofy().save().entity(user).now();
     	System.out.println("Creation de: " + user);
     	return user;

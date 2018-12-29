@@ -59,8 +59,15 @@ var app = angular.module('plunker', []).controller('Tinytwitter', ['$scope', '$w
           });
 
       }
+    
     $scope.connection = function() {
-        $scope.user.username = $scope.pseudo;
+        gapi.client.tinytweeter.create_user({
+        username: $scope.pseudo
+      }).execute(
+        function(resp) {
+            $scope.user = resp
+            console.log($scope.user);
+        });
       }
 
     $window.init = function() {
