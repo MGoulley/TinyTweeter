@@ -38,6 +38,10 @@ td {
     color: white;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
     border-radius: 10px;
+}
+
+.inputlabel{
+    border-radius: 10px;
+    text-align: center;
 }

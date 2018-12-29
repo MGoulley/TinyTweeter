@@ -1,4 +1,21 @@
-var app = angular.module('plunker', []).controller('Tinytwitter', ['$scope', '$window',
+angular.module('helloworld', ['ui.router']).config(function($stateProvider) {
+  var helloState = {
+    name: 'hello',
+    url: '/hello',
+    template: '<h3>hello world!</h3>'
+  }
+  
+  var aboutState = {
+    name: 'about',
+    url: '/about',
+    template: '<h3>Its the UI-Router hello world app!</h3>'
+  }
+  
+  $stateProvider.state(helloState);
+  $stateProvider.state(aboutState);
+});
+
+angular.module('plunker', ['helloworld']).controller('Tinytwitter', ['$scope', '$window',
   function($scope, $window) {
     $scope.user;
     $scope.posttime = 0;
@@ -67,6 +84,9 @@ var app = angular.module('plunker', []).controller('Tinytwitter', ['$scope', '$w
         function(resp) {
             $scope.user = resp
             console.log($scope.user);
+            console.log($scope.user.utilisateurID);
+            console.log($scope.user.username);
+            $window.location.href = '/html2.html';
         });
       }
 
@@ -78,3 +98,4 @@ var app = angular.module('plunker', []).controller('Tinytwitter', ['$scope', '$w
     }
   }
 ]);
+
