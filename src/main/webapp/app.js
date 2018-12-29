@@ -1,8 +1,6 @@
 var app = angular.module('plunker', []).controller('Tinytwitter', ['$scope', '$window',
   function($scope, $window) {
     $scope.user;
-
-    $scope.user;
     $scope.posttime = 0;
     $scope.gettime = 0;
     $scope.tweets = [];

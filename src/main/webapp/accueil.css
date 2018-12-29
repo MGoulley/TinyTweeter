@@ -1,8 +1,31 @@
 body {
-  background-color: #2980b9;
+    background-color: #2980b9;
 }
 
 h1 {
-  color: #ecf0f1;
-  margin-left: 20px;
+    color: #ecf0f1;
+}
+
+h2 {
+    color: #ecf0f1;
+}
+
+input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+table { 
+    table-layout: fixed; 
+}
+
+td { 
+    width: 50%; 
+}
+
+.box {
+    display: flex;
+    flex-wrap: wrap; /* Optional. only if you want the items to wrap */
+    justify-content: center; /* For horizontal alignment */
+    align-items: center; /* For vertical alignment */
 }

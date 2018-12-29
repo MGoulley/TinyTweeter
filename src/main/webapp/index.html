@@ -12,23 +12,27 @@
   </head>
 
   <body>
-    <center><h1>Bienvenue sur Tinytweeter !</h1></center>
-    <div ng-controller="Tinytwitter" style="margin : 15px;">
-        <form ng-submit="connection()">
-            <table>
-                <tr>
-                    <td colspan="2" style="font-weight:bold;"><h1>Connectez vous !</h1></td>
-                </tr>
-                <tr>
-                    <td><label>Username : </label></td>
-                    <td><input class="form-control" ng-model="pseudo" /></td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="font-weight:bold;"><input class="btn btn-primary" type="submit" value="Connection"></td>
-                </tr>
-            </table>
-        </form>
-    </div>  
+
+    <div class="box">
+        <center><h1>Bienvenue sur Tinytweeter !</h1></center>
+        <div ng-controller="Tinytwitter" style="margin : 15px;">
+            <form ng-submit="connection()">
+                <table>
+                    <tr>
+                        <td colspan="2" style="font-weight:bold;"><center><h2>Connectez vous !</h2> </center></td>
+                    </tr>
+                    <tr>
+                        <td><label>Username : </label></td>
+                        <td><input class="form-control" ng-model="pseudo" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="font-weight:bold;"><input class="btn btn-primary" type="submit" value="Connection"></td>
+                    </tr>
+                </table>
+            </form>
+        </div> 
+    </div>
+     
   
     <table>
       <tr>
