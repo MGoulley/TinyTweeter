@@ -2,11 +2,33 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="accueil.css">
     <title>Hello App Engine</title>
+    <script>
+    document.write('<base href="' + document.location + '" />');
+  </script>
+  <script data-require="angular.js@1.3.x" src="https://code.angularjs.org/1.3.14/angular.js" data-semver="1.3.14"></script>
+    <script src="app.js"></script>
   </head>
 
   <body>
-    <h1>Hello App Engine!</h1>
+    <center><h1>Bienvenue sur Tinytweeter !</h1></center>
+    <div ng-controller="Tinytwitter" style="margin : 15px;">
+        <form ng-submit="connection()">
+            <table>
+                <tr>
+                    <td colspan="2" style="font-weight:bold;"><h1>Connectez vous !</h1></td>
+                </tr>
+                <tr>
+                    <td><label>Username : </label></td>
+                    <td><input class="form-control" ng-model="pseudo" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="font-weight:bold;"><input class="btn btn-primary" type="submit" value="Connection"></td>
+                </tr>
+            </table>
+        </form>
+    </div>  
   
     <table>
       <tr>
@@ -19,5 +41,15 @@
         <td><a href='html2.html'>utilisation</a></td>
       </tr>
     </table>
+
+    
+    <script>
+    var init = function() {
+      console.log("init calledd");
+      window.init();
+    };
+  </script>
+
+  <script src="https://apis.google.com/js/client.js?onload=init"></script>
   </body>
 </html>
