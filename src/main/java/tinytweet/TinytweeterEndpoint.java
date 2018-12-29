@@ -4,10 +4,11 @@ import com.google.api.client.util.Lists;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
+import com.google.api.server.spi.config.AnnotationBoolean;
+
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
-
-import tinytweet.Utilisateur;
+import com.googlecode.objectify.Work;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
@@ -19,7 +20,8 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-@Api(name = "tinytweeter")
+@Api(name = "tinytweeter",
+	apiKeyRequired = AnnotationBoolean.FALSE)
 public class TinytweeterEndpoint {
 	static {
         ObjectifyService.register(Utilisateur.class); 
@@ -39,6 +41,7 @@ public class TinytweeterEndpoint {
 	public List<Utilisateur> utilisateurs() {
 		ofy().clear();
 		List<Utilisateur> users = ofy().load().type(Utilisateur.class).list();
+		System.out.println(users);
     	return users;
     }
 	
