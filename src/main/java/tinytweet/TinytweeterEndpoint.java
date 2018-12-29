@@ -8,7 +8,6 @@ import com.google.api.server.spi.config.AnnotationBoolean;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.Work;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
