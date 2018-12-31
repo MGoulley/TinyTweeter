@@ -1,36 +1,44 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<link rel="stylesheet" type="text/css" href="utilisateur.css">
-<title>Insert title here</title>
-</head>
-<body>
-    <div>
-        <table border="1">
-            <tr style="height: 25%">
-                <td>
-                    <p>Utilisateur</p>
-                </td>
-                <td>
-                    <p>Poster un tweet</p>
-                </td>
-                <td>
-                    <p>Tinytweeter</p>
-                </td>
-            </tr>
-            <tr class="secondeligne">
-                <td>
-                    <p>Consulter hashtag</p>
-                </td>
-                <td>
-                    <p>Timeline</p>
-                </td>
-                <td>
-                    <p>Consulter les utilisateurs</p>
-                </td>
-            </tr>
-        </table>
-    </div>
-</body>
-</html>
+<div class="utilisateur">
+    <table border="1">
+        <tr style="height: 25%">
+            <td class="left" ng-controller="Tinytwitter">
+                <center>
+                    <p>Bienvenue {{user.username}} !</p>
+                </center>
+                <p>Votre ID : 1234</p>
+                <p>Vos abonnements : </p>
+                <p>Vos followers : </p>
+                <p>Vos tweets : </p>
+            </td>
+            <td class="middle">
+                <form ng-submit="sendMsg()">
+                    <div class="lpt">
+                        <center>
+                            <p>Poster un tweet</p>
+                        </center>
+                    </div>
+                    <div class="ipt">
+                        <textarea class="form-control" rows="10" ng-model="message"></textarea>
+                    </div>
+                    <div class="bpt">
+                        <input type="submit" value="Envoyer" style="float: right; width: 30%; height: 100%;">
+                    </div>
+                </form>
+            </td>
+            <td class="right">
+                <p>Tinytweeter</p>
+            </td>
+        </tr>
+        <tr class="secondeligne">
+            <td>
+                <p>Consulter hashtag</p>
+            </td>
+            <td>
+                <p>Timeline</p>
+            </td>
+            <td>
+                <p>Consulter les utilisateurs</p>
+            </td>
+        </tr>
+    </table>
+</div>

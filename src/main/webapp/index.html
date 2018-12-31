@@ -1,68 +1,30 @@
 <!DOCTYPE html>
-<html ng-app="plunker">
-  <head>
+<html>
+
+<head>
     <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="accueil.css">
     <title>Tiny Tweeter</title>
-
-  <script src="//unpkg.com/angular@1.6.5/angular.js"></script>
-    <script src="//unpkg.com/@uirouter/angularjs@1.0.5/release/angular-ui-router.js"></script>
+    <script src="/jssources/angular.js"></script>
+    <script src="/jssources/angular-router.js"></script>
     <script src="app.js"></script>
-    
-  </head>
+</head>
 
-  <body>
-    <center><h1>Bienvenue sur Tinytweeter !</h1></center>
-   <div class="box"> 
-        <div ng-controller="Tinytwitter">
-            <form ng-submit="connection()">
-                <table>
-                    <tr>
-                        <td colspan="2" style="font-weight:bold;"><center><h2>Connectez vous !</h2> </center></td>
-                    </tr>
-                    <tr>
-                        <td><label>Username : </label></td>
-                        <td><input class="inputlabel" ng-model="pseudo" /></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="font-weight:bold;"><input class="submitbtn" type="submit" value="Connection"></td>
-                    </tr>
-                </table>
-            </form>
-        </div> 
+<body ng-app="app">
+    <div ng-controller="controller">
+        <div ui-view></div>
     </div>
-
-    <div>
-        <a ui-sref="hello" ui-sref-active="active">Hello</a>
-        <a ui-sref="about" ui-sref-active="active">About</a>
-        <ui-view></ui-view>
-    </div>
-     
-  
-    <table>
-      <tr>
-        <td colspan="2" style="font-weight:bold;">Available Links:</td>        
-      </tr>
-      <tr>
-        <td><a href='/_ah/api/explorer'>API explorer</a></td>
-      </tr>
-      <tr>
-        <td><a href='html2.html'>utilisation</a></td>
-      </tr>
-      <tr>
-        <td><a href='templates/utilisateur.html'>utilisateur</a></td>
-      </tr>1
-    </table>
 
     <div ng-controller="Tinytwitter">
-    <script>
-    var init = function() {
-      console.log("init called");
-      window.init();
-    };
-  </script>
-  </div>
+        <script>
+            var init = function () {
+                console.log("init called");
+                window.init();
+            };
+        </script>
+    </div>
 
-  <script src="https://apis.google.com/js/client.js?onload=init"></script>
-  </body>
+    <script src="https://apis.google.com/js/client.js?onload=init"></script>
+</body>
+
 </html>
