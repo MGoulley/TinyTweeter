@@ -74,7 +74,7 @@ public class TinytweeterEndpoint {
         // Creation des hashtags ou ajout dans les hashtags existants
         if(!result.isEmpty()) {
         	Set<Long> hastagsID = new HashSet<Long>();
-        	List<Hashtag> hashtags = ofy().load().type(Hashtag.class).list(); //  on récupère une seule fois la liste des hashtags
+        	List<Hashtag> hashtags = ofy().load().type(Hashtag.class).list(); //  on rï¿½cupï¿½re une seule fois la liste des hashtags
             for(String s : result) {
             	boolean found = false;
             	for(int i = 0; i < hashtags.size(); i++) {
@@ -94,7 +94,7 @@ public class TinytweeterEndpoint {
         			hastagsID.add(ht.hashtagID);
             	}
             }
-            // Mise à jour du tweet avec les hashtags
+            // Mise ï¿½ jour du tweet avec les hashtags
             tweet.setHashtags(hastagsID);
             ofy().save().entity(tweet).now();
         }  
@@ -169,7 +169,7 @@ public class TinytweeterEndpoint {
     	return lst;
     }
 	
-	@ApiMethod(name = "resetALL", httpMethod = ApiMethod.HttpMethod.POST, path="resetall")
+	@ApiMethod(name = "resetall", httpMethod = ApiMethod.HttpMethod.POST, path="resetall")
 	public void resetALL() {
 		ofy().clear();	
 		Iterable<Key<Utilisateur>> clesUsers = ofy().load().type(Utilisateur.class).keys().list();

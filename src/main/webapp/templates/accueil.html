@@ -1,8 +1,7 @@
 <center>
     <h1>Bienvenue sur Tinytweeter !</h1>
-</center>
-<div class="box">
-    <div ng-controller="Tinytwitter">
+
+<div class="box" ng-controller="Tinytwitter">
         <form ng-submit="connection()">
             <table>
                 <tr>
@@ -22,31 +21,31 @@
                 </tr>
                 <tr>
                     <td colspan="2" style="font-weight:bold;">
-                        <input class="submitbtn" type="submit" value="Connection">
+                        <input class="submitbtn" type="submit" value="Connection" ng-click>
                     </td>
                 </tr>
             </table>
         </form>
-    </div>
 </div>
+</center>
 
 <table>
-        <tr>
-            <td colspan="2" style="font-weight:bold;">Available Links:</td>
-        </tr>
-        <tr>
-            <td>
-                <a href='/_ah/api/explorer'>API explorer</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href='html2.html'>utilisation</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href='templates/utilisateur.html'>utilisateur</a>
-            </td>
-        </tr>
-    </table>
+    <tr>
+        <td colspan="2" style="font-weight:bold;">Available Links:</td>
+    </tr>
+    <tr>
+        <td>
+            <a href='../_ah/api/explorer'>API explorer</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href='html2.html'>utilisation</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href='templates/utilisateur.html'>utilisateur</a>
+        </td>
+    </tr>
+</table>
