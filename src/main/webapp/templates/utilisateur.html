@@ -1,7 +1,7 @@
-<div class="utilisateur" ng-controller="utilisateur">
+<div class="utilisateur">
     <table border="1">
         <tr style="height: 25%">
-            <td class="left" ng-controller="Tinytwitter">
+            <td class="left" ng-controller="utilisateur">
                 <center>
                     <p>Bienvenue {{user.username}} !</p>
                 </center>
@@ -11,7 +11,7 @@
                 <p>Vos tweets : </p>
             </td>
             <td class="middle">
-                <form ng-submit="sendMsg()">
+                <form ng-submit="sendMsg()" ng-controller="Tinytwitter">
                     <div class="lpt">
                         <center>
                             <p>Poster un tweet</p>
@@ -37,19 +37,19 @@
                 <p>Creation/Acces utilisateur: {{timeuser}}</p>
             </td>
         </tr>
-        <tr class="secondeligne">
+        <tr class="secondeligne" ng-controller="utilisateur">
             <td>
                 <p>Consulter hashtag</p>
             </td>
             <td>
                 <center>
-                    <p>Timeline</p>
-                </center>
+                    <p>Timeline</p> 
                 <br/>
                 <div ng-repeat="x in timeline">
                     <h3>{{x.auteur}}</h3>
                     <p>{{x.tweet}}</p>
                 </div>
+                </center>
             </td>
             <td>
                 <p>Consulter les utilisateurs</p>

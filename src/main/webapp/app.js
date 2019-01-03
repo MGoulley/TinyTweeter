@@ -75,19 +75,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 });
 
 app.controller('Tinytwitter', function ($scope, $location, $window, factory) {
-    $scope.posttime = 0;
-    $scope.gettime = 0;
-    $scope.tweets = [];
-
-    $scope.addUser = function () {
-        gapi.client.tinytweeter.create_user({
-            username: $scope.adduser
-        }).execute(
-            function (resp) {
-                console.log(resp);
-            });
-    }
-
     $scope.follow = function () {
         gapi.client.tinytweeter.add_follow({
             userID: $scope.followed,
@@ -99,31 +86,29 @@ app.controller('Tinytwitter', function ($scope, $location, $window, factory) {
     }
 
     $scope.sendMsg = function () {
-        console.time('sendMsg');
+        console.log(factory.getuser());
         var t0 = performance.now();
         gapi.client.tinytweeter.create_tweet({
-            authorID: $scope.senderID,
-            authorUsername: $scope.sender,
+            authorID: factory.getuser().utilisateurID,
+            authorUsername: factory.getuser().username,
             message: $scope.message
         }).execute(
             function (resp) {
                 console.log(resp);
-                var t1 = performance.now();
-                $scope.posttime = (t1 - t0);
-                $scope.$apply();
+                $location.path('/utilisateur')
             });
 
     }
 
     $scope.getMsg = function () {
         gapi.client.tinytweeter.timeline({
-            userID: $scope.receiver
+            userID: factory.getuser().utilisateurID,
+            nb_messages: 10
         }).execute(
             function (resp) {
                 console.log(resp.items);
-                $scope.tweets = resp.items;
+                factory.settimeline(resp.items); 
             });
-
     }
 
     $scope.resetall = function () {
@@ -141,6 +126,7 @@ app.controller('Tinytwitter', function ($scope, $location, $window, factory) {
                 } else {
                     factory.settimeuser(performance.now() - t0);
                     factory.setuser(resp);
+                    $scope.getMsg();     
                     console.log(resp);
                     $location.path('/utilisateur')
                 }

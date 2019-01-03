@@ -149,11 +149,10 @@ public class TinytweeterEndpoint {
     }
 	
 	@ApiMethod(name = "timeline", httpMethod = ApiMethod.HttpMethod.POST, path="users/{userID}/timeline")
-	public List<Tweet> timeline(@Named("userID")Long userID) {
-		ofy().clear();		
+	public List<Tweet> timeline(@Named("userID")Long userID, @Named("nb_messages")int nb) {
+		ofy().clear();
 		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
 		Utilisateur user = ofy().load().key(cleUser).now();
-	
 		Set<Long> tweetsID = new HashSet<Long>();
 		tweetsID.addAll(user.getMytweets()); // Ajoute les tweets de user
 		for(Long l : user.getFollowers()) {
@@ -161,12 +160,17 @@ public class TinytweeterEndpoint {
 			Utilisateur u = ofy().load().key(cle).now();
 			tweetsID.addAll(u.getMytweets());
 		}
-		
 		List<Tweet> lst = new ArrayList<Tweet>();
-		for(Long l : tweetsID) {
-			lst.add(ofy().load().key(Key.create(Tweet.class, l)).now());
+		
+		if(nb == 0) {	
+			for(Long l : tweetsID) {
+				lst.add(ofy().load().key(Key.create(Tweet.class, l)).now());
+			}
+	    	return lst;
+		}else {
+			
+			return null;
 		}
-    	return lst;
     }
 	
 	@ApiMethod(name = "resetall", httpMethod = ApiMethod.HttpMethod.POST, path="resetall")
@@ -180,5 +184,32 @@ public class TinytweeterEndpoint {
 		
 		Iterable<Key<Hashtag>> cleshtag = ofy().load().type(Hashtag.class).keys().list();
 		ofy().delete().keys(cleshtag).now();
+    }
+	
+	@ApiMethod(name = "create_problem", httpMethod = ApiMethod.HttpMethod.POST, path="createproblem")
+	public void createproblem() {
+		resetALL(); //reset avant de recreer
+		createUtilisateur("Brigitte");
+		for(int i = 1; i <= 100; i++) {
+			createUtilisateur("Brigitte_follower_"+i);
+		}
+		Utilisateur pdc = createUtilisateur("Pas-de-Calais");
+		for(int i = 1; i <= 1000; i++) {
+			createUtilisateur("Pas-de-Calais_follower_"+i);
+		}
+		Utilisateur pascal = createUtilisateur("Pascal");
+		for(int i = 1; i <= 5000; i++) {
+			createUtilisateur("Pascal_follower_"+i);
+		}
+		
+		// Hashtag contenant 1000 tweets
+		for(int i = 0; i < 1000; i++) {
+			createTweet(pdc.utilisateurID, pdc.username, "Il pleut #pluie");
+		}
+		
+		// Hashtag contenant 5000 tweets
+		for(int i = 0; i < 5000; i++) {
+			createTweet(pascal.utilisateurID, pascal.username, "HTTP est #statefull");
+		}
     }
 }

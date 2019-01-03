@@ -83,3 +83,15 @@ td {
     resize: none;
     height: 100%;
 }
+
+.utilisateur .secondeligne{
+    width: 100%;
+    height: 70%;
+}
+
+.utilisateur .secondeligne td{
+    overflow-y: scroll;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 100%;
+}
