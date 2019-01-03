@@ -11,8 +11,10 @@ import com.googlecode.objectify.annotation.Id;
 @Entity
 @Cache(expirationSeconds=600)
 public class Tweet {
+	public class LoadTweet{}
+	
 	@Id Long tweetID;
-	private String auteur; // Accès plus facile !
+	private String auteur; // Accï¿½s plus facile !
 	private Long auteurID;
 	private String tweet;
 	private Date date;
