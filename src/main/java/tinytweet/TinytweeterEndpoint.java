@@ -8,13 +8,16 @@ import com.google.api.server.spi.config.AnnotationBoolean;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.Work;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import java.util.regex.Pattern;
@@ -161,26 +164,38 @@ public class TinytweeterEndpoint {
     	return user;
     }
 	
-	@ApiMethod(name = "timeline", httpMethod = ApiMethod.HttpMethod.POST, path="users/{userID}/timeline")
-	public List<Tweet> timeline(@Named("userID")Long userID) {
-		ofy().clear();		
+	@ApiMethod(name = "timeline", httpMethod = ApiMethod.HttpMethod.POST, path = "users/{userID}/timeline")
+	public List<Tweet> timeline(@Named("userID") Long userID, @Named("nb_messages") int nb) {
+		ofy().clear();
 		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
 		Utilisateur user = ofy().load().key(cleUser).now();
-	
-		Set<Long> tweetsID = new HashSet<Long>();
+		List<Long> tweetsID = new ArrayList<Long>();
 		tweetsID.addAll(user.getMytweets()); // Ajoute les tweets de user
-		for(Long l : user.getFollowers()) {
-			Key<Utilisateur> cle = Key.create(Utilisateur.class, l);
-			Utilisateur u = ofy().load().key(cle).now();
+		for (Long l : user.getAbonements()) {
+			Key<Utilisateur> cleU = Key.create(Utilisateur.class, l);
+			Utilisateur u = ofy().load().key(cleU).now();
 			tweetsID.addAll(u.getMytweets());
 		}
 		
-		List<Tweet> lst = new ArrayList<Tweet>();
-		for(Long l : tweetsID) {
-			lst.add(ofy().load().key(Key.create(Tweet.class, l)).now());
+		List<Tweet> tweets = new ArrayList<Tweet>();
+		for(Long l : tweetsID)
+		{
+			tweets.add(ofy().load().key(Key.create(Tweet.class, l)).now());
+		}	
+
+		Collections.sort(tweets, new Comparator<Tweet>() {
+			@Override
+			public int compare(Tweet t0, Tweet t1) {
+				return t0.getDate().compareTo(t1.getDate());
+			}
+		});
+
+		if (nb == 0) {
+			return tweets;
+		} else {
+			return tweets.subList(0, nb-1);
 		}
-    	return lst;
-    }
+	}
 	
 	@ApiMethod(name = "resetALL", httpMethod = ApiMethod.HttpMethod.POST, path="resetall")
 	public void resetALL() {
