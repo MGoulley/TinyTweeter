@@ -3,14 +3,17 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Tiny Tweeter</title>
-    <script src="/jssources/angular.js"></script>
-<script src="/jssources/angular-router.js"></script>
-  <script src="app.js"></script>
+  <link rel="stylesheet" type="text/css" href="accueil.css">
+  <title>AngularJS Plunker</title>
+  <script>
+    document.write('<base href="' + document.location + '" />');
+  </script>
+  <script data-require="angular.js@1.3.x" src="https://code.angularjs.org/1.3.14/angular.js" data-semver="1.3.14"></script>
+  <script src="aapp.js"></script>
 </head>
-  
+
 <body ng-controller="Tinytwitter" style="margin : 15px;">
-  <h1>Tiny Twitter</h1>
+  <h1>Tiny Twitt</h1>
   <br>
   <form ng-submit="addUser()">
     <h2>Adding a user</h2>
@@ -58,25 +61,39 @@
     <input class="btn btn-primary" type="submit" value="Get">
 
   </form>
-  
-  
-  <br>
- <br>
+   <br>
   <div ng-repeat="x in tweets">
-    <h3>{{x.auteur}}</h3>
+    <h3>{{x.auteur}}</h3><p>id : {{x.tweetID}}</p>
     <p>{{x.tweet}}</p>
   </div>
 <br>
     <h4>Time : {{gettime}} ms</h4>
+  <br>
+  
+  
+  <form ng-submit="getUserID()">
+    <h2>Get Users</h2>
+    <label>Username : </label>
+    <input class="form-control" ng-model="username" />
+    <br>
+    <input class="btn btn-primary" type="submit" value="Get2">
 
-
-
-
+  </form>
+ <br>
+  <div ng-repeat="x in userss">
+    <h3>{{x.username}}</h3>
+    <p>{{x.utilisateurID}}</p>
+  </div>
+<br>
+    <h4>Time : {{gettime2}} ms</h4>
+  <br>
+  
    <script>
     var init = function() {
-      console.log("init called");
-      window.init();
-    };
+  	var rootApi = 'http://localhost:8080/_ah/api';
+  	gapi.client.load('tinytweeter', 'v1', function() {
+      console.log("api loaded");
+  	}, rootApi);}
   </script>
 
   <script src="https://apis.google.com/js/client.js?onload=init"></script>
