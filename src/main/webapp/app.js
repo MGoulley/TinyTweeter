@@ -4,20 +4,73 @@ app.controller("controller", function ($location) {
     $location.path('/accueil')
 });
 
+app.factory("factory", function () {
+    var user = {};
+    var timeline = {};
+    var hashtags = {};
+
+    var timeUser = 0;
+    var timeTimeline = 0;
+
+    function settimeuser(temps) {
+        timeUser = temps;
+    }
+
+    function gettimeuser() {
+        return timeUser;
+    }
+
+    function settimeTimeline(temps) {
+        timeTimeline = temps;
+    }
+
+    function gettimeTimeline() {
+        return timeTimeline;
+    }
+
+    function settimeline(tweets) {
+        timeline = tweets;
+    }
+
+    function gettimeline() {
+        return timeline;
+    }
+
+    function setuser(utilisateur) {
+        user = utilisateur;
+    }
+
+    function getuser() {
+        return user;
+    }
+
+    function gethashtags() {
+        return hashtags;
+    }
+
+    function sethashtags(valeur) {
+        hashtags = valeur;
+    }
+
+    return {
+        setuser: setuser,
+        getuser: getuser,
+        settimeline: settimeline,
+        gettimeline: gettimeline,
+        settimetimeline: settimeTimeline,
+        gettimetimeline: gettimeTimeline,
+        settimeuser: settimeuser,
+        gettimeuser: gettimeuser,
+        gethashtags: gethashtags,
+        sethashtags: sethashtags
+    }
+});
+
 app.controller("utilisateur", function ($scope, $location, factory) {
     $scope.user = factory.getuser();
     $scope.timeuser = factory.gettimeuser();
     $scope.timeline = factory.gettimeline();
-    $scope.hashtags = factory.gethashtags();
-
-    $scope.gethashtags = function () {
-        console.log('test');
-        gapi.client.tinytweeter.hashtags.execute(
-            function (resp) {
-                console.log(resp.items);
-                factory.sethashtags(resp.items); 
-            });
-    }
+    $scope.hashtags = factory.gethashtags();  
 });
 
 app.config(function ($stateProvider, $urlRouterProvider) {
@@ -34,6 +87,15 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 });
 
 app.controller('Tinytwitter', function ($scope, $location, $window, factory) {
+    $scope.gethashtags = function () {
+        console.log('test');
+        gapi.client.tinytweeter.hashtags.execute(
+            function (resp) {
+                console.log(resp.items);
+                factory.sethashtags(resp.items); 
+            });
+    }
+
     $scope.follow = function () {
         gapi.client.tinytweeter.add_follow({
             userID: $scope.followed,
@@ -101,64 +163,3 @@ app.controller('Tinytwitter', function ($scope, $location, $window, factory) {
     }
 });
 
-app.factory("factory", function () {
-    var user = {};
-    var timeline = {};
-    var hashtags = {};
-
-    var timeUser = 0;
-    var timeTimeline = 0;
-
-    function settimeuser(temps) {
-        timeUser = temps;
-    }
-
-    function gettimeuser() {
-        return timeUser;
-    }
-
-    function settimeTimeline(temps) {
-        timeTimeline = temps;
-    }
-
-    function gettimeTimeline() {
-        return timeTimeline;
-    }
-
-    function settimeline(tweets) {
-        timeline = tweets;
-    }
-
-    function gettimeline() {
-        return timeline;
-    }
-
-    function setuser(utilisateur) {
-        user = utilisateur;
-    }
-
-    function getuser() {
-        return user;
-    }
-
-    function gethashtags() {
-        return hashtags;
-    }
-
-    function sethashtags(valeur) {
-        hashtags = valeur;
-    }
-
-    return {
-        setuser: setuser,
-        getuser: getuser,
-        settimeline: settimeline,
-        gettimeline: gettimeline,
-        settimetimeline: settimeTimeline,
-        gettimetimeline: gettimeTimeline,
-        settimeuser: settimeuser,
-        gettimeuser: gettimeuser,
-        gethashtags: gethashtags,
-        sethashtags: sethashtags
-    }
-});

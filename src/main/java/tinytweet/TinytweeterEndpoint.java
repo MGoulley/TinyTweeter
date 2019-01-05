@@ -34,8 +34,15 @@ public class TinytweeterEndpoint {
 	
 	@ApiMethod(name = "create_user", httpMethod = ApiMethod.HttpMethod.POST, path="users/create")
     public Utilisateur createUtilisateur(@Named("username")String username) {
-    	Utilisateur user = new Utilisateur(username);
     	ofy().clear();
+    	List<Utilisateur> users = ofy().load().type(Utilisateur.class).list();
+		for (Utilisateur u : users) {
+			if (u.username.equals(username)) {
+				System.out.println(u.getUsername() + " existe deja.");
+				return u;
+			}
+		}
+    	Utilisateur user = new Utilisateur(username);
     	ofy().save().entity(user).now();
     	System.out.println("Creation de: " + user);
     	return user;
@@ -118,7 +125,9 @@ public class TinytweeterEndpoint {
 		// Ajout du tweet pour l'utilisateur
 		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
 		Utilisateur user = ofy().load().key(cleUser).now();
+		System.out.println(tweet);		
 		user.addTweet(tweet.tweetID);	
+		System.out.println(user);
 		ofy().save().entity(user).now();
     	return tweet;
     }
@@ -176,20 +185,22 @@ public class TinytweeterEndpoint {
 			Utilisateur u = ofy().load().key(cleU).now();
 			tweetsID.addAll(u.getMytweets());
 		}
+		System.out.println(user);
+		System.out.println(user.getMytweets());
 		
 		List<Tweet> tweets = new ArrayList<Tweet>();
 		for(Long l : tweetsID)
 		{
 			tweets.add(ofy().load().key(Key.create(Tweet.class, l)).now());
 		}	
-
+		
 		Collections.sort(tweets, new Comparator<Tweet>() {
 			@Override
 			public int compare(Tweet t0, Tweet t1) {
 				return t0.getDate().compareTo(t1.getDate());
 			}
 		});
-
+		
         if (nb == 0 || tweets.size() < nb) {
             return tweets;
         } else {
