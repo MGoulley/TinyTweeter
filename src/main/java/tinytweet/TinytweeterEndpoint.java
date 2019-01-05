@@ -158,7 +158,7 @@ public class TinytweeterEndpoint {
 		List<Long> tweetsID = new ArrayList<Long>();
 		tweetsID.addAll(user.getMytweets()); // Ajoute les tweets de user
 		for (Long l : user.getAbonements()) {
-			Key<Utilisateur> cleU = Key.create(Utilisateur.class, userID);
+			Key<Utilisateur> cleU = Key.create(Utilisateur.class, l);
 			Utilisateur u = ofy().load().key(cleU).now();
 			tweetsID.addAll(u.getMytweets());
 		}
@@ -199,18 +199,33 @@ public class TinytweeterEndpoint {
 	@ApiMethod(name = "create_problem", httpMethod = ApiMethod.HttpMethod.POST, path = "createproblem")
 	public void createproblem() {
 		resetALL(); // reset avant de recreer
-		createUtilisateur("Brigitte");
+		Utilisateur brigitte = createUtilisateur("Brigitte");
 		for (int i = 1; i <= 100; i++) {
-			createUtilisateur("Brigitte_follower_" + i);
+			Utilisateur follower = createUtilisateur("Brigitte_follower_" + i);
+			follower.addAbonnement(brigitte.utilisateurID);
+			brigitte.addFollower(follower.utilisateurID);
+			ofy().save().entity(follower).now();
 		}
+		ofy().save().entity(brigitte).now();
+		
 		Utilisateur pdc = createUtilisateur("Pas-de-Calais");
 		for (int i = 1; i <= 1000; i++) {
-			createUtilisateur("Pas-de-Calais_follower_" + i);
+			Utilisateur follower = createUtilisateur("Pas-de-Calais_follower_" + i);
+			follower.addAbonnement(pdc.utilisateurID);
+			pdc.addFollower(follower.utilisateurID);
+			ofy().save().entity(follower).now();
 		}
+		ofy().save().entity(pdc).now();
+		
+		
 		Utilisateur pascal = createUtilisateur("Pascal");
 		for (int i = 1; i <= 5000; i++) {
-			createUtilisateur("Pascal_follower_" + i);
+			Utilisateur follower = createUtilisateur("Pascal_follower_" + i);
+			follower.addAbonnement(pascal.utilisateurID);
+			pascal.addFollower(follower.utilisateurID);
+			ofy().save().entity(follower).now();
 		}
+		ofy().save().entity(pascal).now();
 
 		// Hashtag contenant 1000 tweets
 		for (int i = 0; i < 1000; i++) {
