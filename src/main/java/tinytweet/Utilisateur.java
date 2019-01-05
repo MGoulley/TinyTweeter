@@ -98,4 +98,3 @@ public class Utilisateur {
 		this.mytweets = mytweets;
 	}
 }
-

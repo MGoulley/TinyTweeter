@@ -87,7 +87,7 @@ public class TinytweeterEndpoint {
         // Creation des hashtags ou ajout dans les hashtags existants
         if(!result.isEmpty()) {
         	Set<Long> hastagsID = new HashSet<Long>();
-        	List<Hashtag> hashtags = ofy().load().type(Hashtag.class).list(); //  on r�cup�re une seule fois la liste des hashtags
+        	List<Hashtag> hashtags = ofy().load().type(Hashtag.class).list(); //  on récupère une seule fois la liste des hashtags
             for(String s : result) {
             	boolean found = false;
             	for(int i = 0; i < hashtags.size(); i++) {
@@ -175,29 +175,6 @@ public class TinytweeterEndpoint {
 			tweetsID.addAll(u.getMytweets());
 		}
 		
-<<<<<<< HEAD
-		List<Tweet> tweets = new ArrayList<Tweet>();
-		for(Long l : tweetsID)
-		{
-			tweets.add(ofy().load().key(Key.create(Tweet.class, l)).now());
-		}	
-
-		Collections.sort(tweets, new Comparator<Tweet>() {
-			@Override
-			public int compare(Tweet t0, Tweet t1) {
-				return t0.getDate().compareTo(t1.getDate());
-			}
-		});
-
-		if (nb == 0 || tweets.size() < nb) {
-            return tweets;
-        } else {
-            return tweets.subList(0, nb-1);
-        }
-	}
-
-	@ApiMethod(name = "resetall", httpMethod = ApiMethod.HttpMethod.POST, path = "resetall")
-=======
 		List<Tweet> lst = new ArrayList<Tweet>();
 		for(Long l : tweetsID) {
 			lst.add(ofy().load().key(Key.create(Tweet.class, l)).now());
@@ -206,7 +183,6 @@ public class TinytweeterEndpoint {
     }
 	
 	@ApiMethod(name = "resetALL", httpMethod = ApiMethod.HttpMethod.POST, path="resetall")
->>>>>>> 28d992d33c9d0818489709b4c52ec9cf567e2aee
 	public void resetALL() {
 		ofy().clear();	
 		Iterable<Key<Utilisateur>> clesUsers = ofy().load().type(Utilisateur.class).keys().list();
@@ -257,7 +233,6 @@ public class TinytweeterEndpoint {
 		for (int i = 0; i < 1000; i++) {
 			createTweet(pdc.utilisateurID, pdc.username, "Il pleut #pluie");
 		}
-
 		// Hashtag contenant 5000 tweets
 		for (int i = 0; i < 5000; i++) {
 			createTweet(pascal.utilisateurID, pascal.username, "HTTP est #statefull");
