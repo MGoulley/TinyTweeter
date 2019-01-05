@@ -12,10 +12,12 @@ import com.googlecode.objectify.ObjectifyService;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import java.util.regex.Pattern;
@@ -103,7 +105,7 @@ public class TinytweeterEndpoint {
 		// Ajout du tweet pour l'utilisateur
 		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
 		Utilisateur user = ofy().load().key(cleUser).now();
-		user.addTweet(Key.create(Tweet.class, tweet.tweetID));
+		user.addTweet(tweet.tweetID);
 		ofy().save().entity(user).now();
 		return tweet;
 	}
@@ -137,11 +139,11 @@ public class TinytweeterEndpoint {
 
 		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
 		Utilisateur user = ofy().load().key(cleUser).now();
-		user.addAbonnement(Key.create(Utilisateur.class, followID));
+		user.addAbonnement(followID);
 
 		Key<Utilisateur> cleFollower = Key.create(Utilisateur.class, followID);
 		Utilisateur follower = ofy().load().key(cleFollower).now();
-		follower.addFollower(Key.create(Utilisateur.class, userID));
+		follower.addFollower(userID);
 
 		ofy().save().entity(user).now();
 		ofy().save().entity(follower).now();
@@ -153,11 +155,20 @@ public class TinytweeterEndpoint {
 		ofy().clear();
 		Key<Utilisateur> cleUser = Key.create(Utilisateur.class, userID);
 		Utilisateur user = ofy().load().key(cleUser).now();
-		List<Tweet> tweets = new ArrayList<Tweet>();
-		tweets.addAll(user.getMytweets()); // Ajoute les tweets de user
-		for (Utilisateur u : user.getAbonements()) {
-			tweets.addAll(u.getMytweets());
+		List<Long> tweetsID = new ArrayList<Long>();
+		tweetsID.addAll(user.getMytweets()); // Ajoute les tweets de user
+		for (Long l : user.getAbonements()) {
+			Key<Utilisateur> cleU = Key.create(Utilisateur.class, userID);
+			Utilisateur u = ofy().load().key(cleU).now();
+			tweetsID.addAll(u.getMytweets());
 		}
+		
+		List<Tweet> tweets = new ArrayList<Tweet>();
+		for(Long l : tweetsID)
+		{
+			tweets.add(ofy().load().key(Key.create(Tweet.class, l)).now());
+		}	
+
 		Collections.sort(tweets, new Comparator<Tweet>() {
 			@Override
 			public int compare(Tweet t0, Tweet t1) {
