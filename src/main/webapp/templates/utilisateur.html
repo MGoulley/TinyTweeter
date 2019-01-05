@@ -31,7 +31,7 @@
                 </center>
                 <br/>
                 <center>
-                    <p>Temps d'éxécution :</p>
+                    <p>Temps d'execution :</p>
                 </center>
                 <br/>
                 <p>Creation/Acces utilisateur: {{timeuser}}</p>
@@ -39,10 +39,12 @@
         </tr>
         <tr class="secondeligne" ng-controller="utilisateur">
             <td>
-                <div> 
+                <div>
                     <p>Consulter hashtag</p>
-                    <div ng-repeat="y in hashtags"> 
-                        <p>{{y.hashtag}}</p>
+                    <div ng-repeat="y in hashtags">
+                        <div class="hashtag">
+                            <p># {{y.hashtag}}</p>
+                        </div>
                     </div>
                 </div>
             </td>
@@ -59,7 +61,15 @@
                 </center>
             </td>
             <td>
-                <p>Consulter les utilisateurs</p>
+                <div>
+                    <p>Consulter les utilisateurs</p>
+                    <br/>
+                    <div ng-repeat="z in users">
+                        <div class="user">
+                            <p>{{z.username}}</p>
+                        </div>
+                    </div>
+                </div>
             </td>
         </tr>
     </table>

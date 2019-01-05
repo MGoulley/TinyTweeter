@@ -6,6 +6,7 @@ app.controller("controller", function ($location) {
 
 app.factory("factory", function () {
     var user = {};
+    var users = {};
     var timeline = {};
     var hashtags = {};
 
@@ -52,6 +53,14 @@ app.factory("factory", function () {
         hashtags = valeur;
     }
 
+    function setusers(utilisateurs) {
+        users = utilisateurs;
+    }
+
+    function getusers() {
+        return users;
+    }
+
     return {
         setuser: setuser,
         getuser: getuser,
@@ -62,12 +71,15 @@ app.factory("factory", function () {
         settimeuser: settimeuser,
         gettimeuser: gettimeuser,
         gethashtags: gethashtags,
-        sethashtags: sethashtags
+        sethashtags: sethashtags,
+        setusers: setusers,
+        getusers: getusers
     }
 });
 
 app.controller("utilisateur", function ($scope, $location, factory) {
     $scope.user = factory.getuser();
+    $scope.users = factory.getusers();
     $scope.timeuser = factory.gettimeuser();
     $scope.timeline = factory.gettimeline();
     $scope.hashtags = factory.gethashtags();  
@@ -88,11 +100,20 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
 app.controller('Tinytwitter', function ($scope, $location, $window, factory) {
     $scope.gethashtags = function () {
-        console.log('test');
-        gapi.client.tinytweeter.hashtags.execute(
+        gapi.client.tinytweeter.hashtags().execute(
             function (resp) {
-                console.log(resp.items);
                 factory.sethashtags(resp.items); 
+            });
+    }
+
+    $scope.getusers = function () {
+        gapi.client.tinytweeter.users({
+            limite: 10
+        }).execute(
+            function (resp) {
+                console.log("utilisateurs : ");
+                console.log(resp);
+                factory.setusers(resp.items);
             });
     }
 
@@ -107,8 +128,6 @@ app.controller('Tinytwitter', function ($scope, $location, $window, factory) {
     }
 
     $scope.sendMsg = function () {
-        console.log(factory.getuser());
-        var t0 = performance.now();
         gapi.client.tinytweeter.create_tweet({
             authorID: factory.getuser().utilisateurID,
             authorUsername: factory.getuser().username,
@@ -116,7 +135,7 @@ app.controller('Tinytwitter', function ($scope, $location, $window, factory) {
         }).execute(
             function (resp) {
                 console.log(resp);
-                $location.path('/utilisateur')
+                $location.path('/utilisateur');
             });
 
     }
@@ -127,7 +146,6 @@ app.controller('Tinytwitter', function ($scope, $location, $window, factory) {
             nb_messages: 10
         }).execute(
             function (resp) {
-                console.log(resp.items);
                 factory.settimeline(resp.items); 
             });
     }
@@ -147,7 +165,12 @@ app.controller('Tinytwitter', function ($scope, $location, $window, factory) {
                 } else {
                     factory.settimeuser(performance.now() - t0);
                     factory.setuser(resp);
-                    $scope.getMsg();     
+                    t0 = performance.now();
+                    $scope.getMsg();   
+                    t0 = performance.now();
+                    $scope.gethashtags(); 
+                    t0 = performance.now();
+                    $scope.getusers(); 
                     console.log(resp);
                     $location.path('/utilisateur');
                     $scope.$applyAsync();

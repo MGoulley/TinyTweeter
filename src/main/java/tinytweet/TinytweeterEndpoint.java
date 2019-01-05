@@ -49,10 +49,9 @@ public class TinytweeterEndpoint {
     }
 	
 	@ApiMethod(name = "users", httpMethod = ApiMethod.HttpMethod.GET, path="users")
-	public List<Utilisateur> utilisateurs() {
+	public List<Utilisateur> utilisateurs(@Named("limite")int nb) {
 		ofy().clear();
-		List<Utilisateur> users = ofy().load().type(Utilisateur.class).list();
-		System.out.println(users);
+		List<Utilisateur> users = ofy().load().type(Utilisateur.class).limit(nb).list();
     	return users;
     }
 	
