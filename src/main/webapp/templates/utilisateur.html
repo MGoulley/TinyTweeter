@@ -39,16 +39,21 @@
         </tr>
         <tr class="secondeligne" ng-controller="utilisateur">
             <td>
-                <p>Consulter hashtag</p>
+                <div> 
+                    <p>Consulter hashtag</p>
+                    <div ng-repeat="y in hashtags"> 
+                        <p>{{y.hashtag}}</p>
+                    </div>
+                </div>
             </td>
             <td>
                 <center>
-                    <p>Timeline</p> 
-                <br/>
-                <div ng-repeat="x in timeline">
-                    <h3>{{x.auteur}}</h3>
-                    <p>{{x.tweet}}</p>
-                </div>
+                    <p>Timeline</p>
+                    <br/>
+                    <div ng-repeat="x in timeline">
+                        <h3>{{x.auteur}}</h3>
+                        <p>{{x.tweet}}</p>
+                    </div>
                 </center>
             </td>
             <td>

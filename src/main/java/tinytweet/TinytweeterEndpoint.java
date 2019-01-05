@@ -176,11 +176,11 @@ public class TinytweeterEndpoint {
 			}
 		});
 
-		if (nb == 0) {
-			return tweets;
-		} else {
-			return tweets.subList(0, nb-1);
-		}
+		if (nb == 0 || tweets.size() < nb) {
+            return tweets;
+        } else {
+            return tweets.subList(0, nb-1);
+        }
 	}
 
 	@ApiMethod(name = "resetall", httpMethod = ApiMethod.HttpMethod.POST, path = "resetall")

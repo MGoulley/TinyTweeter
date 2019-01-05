@@ -8,56 +8,15 @@ app.controller("utilisateur", function ($scope, $location, factory) {
     $scope.user = factory.getuser();
     $scope.timeuser = factory.gettimeuser();
     $scope.timeline = factory.gettimeline();
-});
+    $scope.hashtags = factory.gethashtags();
 
-app.factory("factory", function () {
-    var user = {};
-    var timeline = {};
-
-    var timeUser = 0;
-    var timeTimeline = 0;
-
-    function settimeuser(temps) {
-        timeUser = temps;
-    }
-
-    function gettimeuser() {
-        return timeUser;
-    }
-
-    function settimeTimeline(temps) {
-        timeTimeline = temps;
-    }
-
-    function gettimeTimeline() {
-        return timeTimeline;
-    }
-
-    function settimeline(tweets) {
-        timeline = tweets;
-    }
-
-    function gettimeline() {
-        return timeline;
-    }
-
-    function setuser(utilisateur) {
-        user = utilisateur;
-    }
-
-    function getuser() {
-        return user;
-    }
-
-    return {
-        setuser: setuser,
-        getuser: getuser,
-        settimeline: settimeline,
-        gettimeline: gettimeline,
-        settimetimeline: settimeTimeline,
-        gettimetimeline: gettimeTimeline,
-        settimeuser: settimeuser,
-        gettimeuser: gettimeuser
+    $scope.gethashtags = function () {
+        console.log('test');
+        gapi.client.tinytweeter.hashtags.execute(
+            function (resp) {
+                console.log(resp.items);
+                factory.sethashtags(resp.items); 
+            });
     }
 });
 
@@ -128,7 +87,8 @@ app.controller('Tinytwitter', function ($scope, $location, $window, factory) {
                     factory.setuser(resp);
                     $scope.getMsg();     
                     console.log(resp);
-                    $location.path('/utilisateur')
+                    $location.path('/utilisateur');
+                    $scope.$applyAsync();
                 }
             });
     }
@@ -141,3 +101,64 @@ app.controller('Tinytwitter', function ($scope, $location, $window, factory) {
     }
 });
 
+app.factory("factory", function () {
+    var user = {};
+    var timeline = {};
+    var hashtags = {};
+
+    var timeUser = 0;
+    var timeTimeline = 0;
+
+    function settimeuser(temps) {
+        timeUser = temps;
+    }
+
+    function gettimeuser() {
+        return timeUser;
+    }
+
+    function settimeTimeline(temps) {
+        timeTimeline = temps;
+    }
+
+    function gettimeTimeline() {
+        return timeTimeline;
+    }
+
+    function settimeline(tweets) {
+        timeline = tweets;
+    }
+
+    function gettimeline() {
+        return timeline;
+    }
+
+    function setuser(utilisateur) {
+        user = utilisateur;
+    }
+
+    function getuser() {
+        return user;
+    }
+
+    function gethashtags() {
+        return hashtags;
+    }
+
+    function sethashtags(valeur) {
+        hashtags = valeur;
+    }
+
+    return {
+        setuser: setuser,
+        getuser: getuser,
+        settimeline: settimeline,
+        gettimeline: gettimeline,
+        settimetimeline: settimeTimeline,
+        gettimetimeline: gettimeTimeline,
+        settimeuser: settimeuser,
+        gettimeuser: gettimeuser,
+        gethashtags: gethashtags,
+        sethashtags: sethashtags
+    }
+});
