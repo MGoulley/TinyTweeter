@@ -1,4 +1,5 @@
 # TinyTweeter
+# Par Matthias Goulley, Thomas Fonteneau, Maxime Loizon et Apolon Viera
 
 ## Mesures
 
@@ -24,3 +25,7 @@ Pour lire les 10 derniers message avec 1000 followers le temps moyen est de 3,35
 
 Pour lire les 10 derniers message avec 5000 followers le temps moyen est de 5,7 ms avec une variance de 2,32 , pour les 50 derniers messages avec 5000 followers de 16,54 ms et une variance de 7,27. Et enfin pour les 100 derniers messages le temps est de 26,25 ms et une variance de 16,32.
 
+# Conclusion
+
+On peut donc conclure que notre appli scale car les temps pour poster un tweet avec 100 et 300 followers et quasiment le même.
+Selon les tests en local, nous voyons aussi que pour accéder aux 10 derniers messages d'un utilisateur, que le temps moyen est relativement le même quelque soit le nombre de followers.
