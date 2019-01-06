@@ -105,30 +105,30 @@ app.controller('Tinytwitter', function ($scope, $location, $window) {
             function (resp) {
                 if (resp.code == 400) {
                     console.log("Message vide.");
-                } else {                 
+                } else {                
                     $window.localStorage.setItem('user', JSON.stringify(resp));
                     $scope.user = JSON.parse($window.localStorage.getItem('user'));  
                     $scope.timeUser = performance.now() - t0;
-
                     $window.localStorage.setItem('timeuser', JSON.stringify($scope.timeUser));
+
                     t0 = performance.now();
-                    $scope.getMsg();
+                    $scope.$applyAsync(function(){$scope.getMsg()});
                     $scope.timeTimeline = performance.now() - t0;
                     $window.localStorage.setItem('timeTimeline', JSON.stringify($scope.timeTimeline));
+
                     t0 = performance.now();
-                    $scope.gethashtags();
+                    $scope.$apply(function(){$scope.gethashtags()});
                     $scope.timehashtags = performance.now() - t0;
                     $window.localStorage.setItem('timehashtags', JSON.stringify($scope.timehashtags));
+
                     t0 = performance.now();
-                    $scope.getusers();
+                    $scope.$apply(function(){$scope.getusers()});
                     $scope.timeusers = performance.now() - t0;
-                    $window.localStorage.setItem('timeusers', JSON.stringify($scope.timeusers));
-                    console.log(resp);
-                    $scope.$apply();
-                    $location.path('/utilisateur');                
+                    $window.localStorage.setItem('timeusers', JSON.stringify($scope.timeusers));               
+                    $scope.$apply(function(){$location.path('/utilisateur')});           
                 }
-            });
-    }
+            });         
+    };
 
     $window.init = function () {
         $window.localStorage.clear();
