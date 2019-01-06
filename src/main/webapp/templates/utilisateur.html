@@ -1,7 +1,7 @@
-<div class="utilisateur">
+<div class="utilisateur" ng-controller="Tinytwitter">
     <table border="1">
         <tr style="height: 25%">
-            <td class="left" ng-controller="utilisateur">
+            <td class="left">
                 <center>
                     <p>Bienvenue {{user.username}} !</p>
                 </center>
@@ -11,17 +11,17 @@
                 <p>Vos tweets : </p>
             </td>
             <td class="middle">
-                <form ng-submit="sendMsg()" ng-controller="Tinytwitter">
+                <form ng-submit="sendMsg()">
                     <div class="lpt">
                         <center>
                             <p>Poster un tweet</p>
                         </center>
                     </div>
                     <div class="ipt">
-                        <textarea class="form-control" rows="10" ng-model="message"></textarea>
+                        <textarea class="form-control" rows="10" ng-model="message" id="textfield"></textarea>
                     </div>
                     <div class="bpt">
-                        <input type="submit" value="Envoyer" style="float: right; width: 30%; height: 100%;">
+                        <input type="submit" value="Envoyer" style="float: right; width: 30%; height: 100%;" onclick="clearFields()">
                     </div>
                 </form>
             </td>
@@ -34,15 +34,19 @@
                     <p>Temps d'execution :</p>
                 </center>
                 <br/>
-                <p>Creation/Acces utilisateur: {{timeuser}}</p>
+                <p>Creation/Acces utilisateur: {{timeUser}}</p>
+                <p>Affichage Timeline : {{timeTimeline}}</p>
+                <p>Affichage Hashtags : {{timehashtags}}</p>
+                <p>Affichage utilisateurs : {{timeusers}}</p>
             </td>
         </tr>
-        <tr class="secondeligne" ng-controller="utilisateur">
+        <tr class="secondeligne">
             <td>
                 <div>
                     <p>Consulter hashtag</p>
                     <div ng-repeat="y in hashtags">
                         <div class="hashtag">
+                            <a href='../_ah/api/explorer'>#{{y.hashtag}}</a>
                             <p># {{y.hashtag}}</p>
                         </div>
                     </div>
