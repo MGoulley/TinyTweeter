@@ -15,12 +15,15 @@ app.config(function ($stateProvider) {
             url: '/utilisateur',
             templateUrl: '/templates/utilisateur.html'
         })
+    $stateProvider
+        .state('hashtag', {
+            url: '/hashtag',
+            templateUrl: '/templates/hashtag.html'
+        })
 });
 
 app.controller('Tinytwitter', function ($scope, $location, $window) {
     $scope.user = JSON.parse($window.localStorage.getItem('user'));  
-    console.log("Mes");
-    console.log(JSON.parse($window.localStorage.getItem('timeline')));
     $scope.timeline = (JSON.parse($window.localStorage.getItem('timeline'))!==null) ? JSON.parse($window.localStorage.getItem('timeline')).items : JSON.parse($window.localStorage.getItem('timeline'));   
     $scope.hashtags = (JSON.parse($window.localStorage.getItem('hashtags'))!==null) ? JSON.parse($window.localStorage.getItem('hashtags')).items : JSON.parse($window.localStorage.getItem('hashtags'));  
     $scope.users = (JSON.parse($window.localStorage.getItem('users'))!==null) ? JSON.parse($window.localStorage.getItem('users')).items : JSON.parse($window.localStorage.getItem('users'));  
@@ -30,6 +33,21 @@ app.controller('Tinytwitter', function ($scope, $location, $window) {
     $scope.timehashtags = $window.localStorage.getItem('timehashtags');
     $scope.timeusers = $window.localStorage.getItem('timeusers');
     
+    $scope.slctht = (JSON.parse($window.localStorage.getItem('slctht'))!==null) ? JSON.parse($window.localStorage.getItem('slctht')).items : JSON.parse($window.localStorage.getItem('slctht'));  
+
+    $scope.getAsh = function() {
+    	 var t0 = performance.now();
+        gapi.client.tinytweeter.get_hashtag_tweets({
+        	hashtagID: $scope.hash
+        	}).execute(
+          function(resp) {
+            console.log(resp.items);
+            $scope.hashtag = resp.items;
+            var t1 = performance.now();
+            $scope.gettime = (t1 - t0);
+            $scope.$apply();
+          });
+      }
 
     $scope.getMsg = function () {
         gapi.client.tinytweeter.timeline({
@@ -59,6 +77,10 @@ app.controller('Tinytwitter', function ($scope, $location, $window) {
                 $scope.users = JSON.parse($window.localStorage.getItem('users')).items;
             });
     }
+
+    $scope.miid = function(){
+        $location.path('/hashtag');
+    };
 
     $scope.connection = function () {
         var t0 = performance.now();
