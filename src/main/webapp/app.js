@@ -147,7 +147,8 @@ app.controller('Tinytwitter', function ($scope, $location, $window) {
 
     $window.init = function () {
         $window.localStorage.clear(); //refresh la session lors de la connection
-        var rootApi = 'http://localhost:8080/_ah/api';
+        var rootApi = 'http://tinytweet.appspot.com/_ah/api';
+        // var rootApi = 'http://localhost:8080/_ah/api';
         gapi.client.load('tinytweeter', 'v1', function () {
             console.log("API Loaded");
         }, rootApi);
