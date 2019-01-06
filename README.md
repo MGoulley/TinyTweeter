@@ -1,5 +1,5 @@
 # TinyTweeter
-# Par Matthias Goulley, Thomas Fonteneau, Maxime Loizon et Apolon Viera
+# Par Matthias Goulley, Thomas Fonteneau, Maxime Loizon et Apollon Viera
 
 ## Mesures
 
