@@ -75,6 +75,19 @@ app.controller('Tinytwitter', function ($scope, $location, $window) {
             });
     }
 
+    $scope.sendMsg = function () {
+        gapi.client.tinytweeter.create_tweet({
+            authorID: $scope.user.utilisateurID,
+            authorUsername:  $scope.user.username,
+            message: $scope.message
+        }).execute(
+            function (resp) {
+                $scope.getMsg();
+                $scope.pseudo = $scope.user.username;
+                $scope.connection();
+            });
+    }
+
     $scope.miid = function(hashtagid){
         $window.localStorage.setItem('slctht', JSON.stringify(hashtagid));
         $scope.slctht = JSON.parse($window.localStorage.getItem('slctht')); 
@@ -111,13 +124,14 @@ app.controller('Tinytwitter', function ($scope, $location, $window) {
                     $scope.timeusers = performance.now() - t0;
                     $window.localStorage.setItem('timeusers', JSON.stringify($scope.timeusers));
                     console.log(resp);
-                    $location.path('/utilisateur');
                     $scope.$apply();
+                    $location.path('/utilisateur');                
                 }
             });
     }
 
     $window.init = function () {
+        $window.localStorage.clear();
         var rootApi = 'http://localhost:8080/_ah/api';
         gapi.client.load('tinytweeter', 'v1', function () {
             console.log("API Loaded");
