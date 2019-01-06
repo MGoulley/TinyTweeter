@@ -25,7 +25,7 @@ app.config(function ($stateProvider) {
 app.controller('Tinytwitter', function ($scope, $location, $window) {
     $scope.user = JSON.parse($window.localStorage.getItem('user'));  
     $scope.timeline = (JSON.parse($window.localStorage.getItem('timeline'))!==null) ? JSON.parse($window.localStorage.getItem('timeline')).items : JSON.parse($window.localStorage.getItem('timeline'));   
-    $scope.hashtags = (JSON.parse($window.localStorage.getItem('hashtags'))!==null) ? JSON.parse($window.localStorage.getItem('hashtags')).items : JSON.parse($window.localStorage.getItem('hashtags'));  
+    $scope.hashtags = (JSON.parse($window.localStorage.getItem('hashtags'))!==null) ? JSON.parse($window.localStorage.getItem('hashtags')).items : JSON.parse($window.localStorage.getItem('hashtags'));
     $scope.users = (JSON.parse($window.localStorage.getItem('users'))!==null) ? JSON.parse($window.localStorage.getItem('users')).items : JSON.parse($window.localStorage.getItem('users'));  
 
     $scope.timeUser = $window.localStorage.getItem('timeuser');
@@ -34,18 +34,15 @@ app.controller('Tinytwitter', function ($scope, $location, $window) {
     $scope.timeusers = $window.localStorage.getItem('timeusers');
     
     $scope.slctht = (JSON.parse($window.localStorage.getItem('slctht'))!==null) ? JSON.parse($window.localStorage.getItem('slctht')).items : JSON.parse($window.localStorage.getItem('slctht'));  
+    $scope.tweetforhashtag = (JSON.parse($window.localStorage.getItem('tweetforhashtag'))!==null) ? JSON.parse($window.localStorage.getItem('tweetforhashtag')).items : JSON.parse($window.localStorage.getItem('tweetforhashtag'));
 
     $scope.getAsh = function() {
-    	 var t0 = performance.now();
         gapi.client.tinytweeter.get_hashtag_tweets({
-        	hashtagID: $scope.hash
+        	hashtagID: $scope.slctht
         	}).execute(
           function(resp) {
-            console.log(resp.items);
-            $scope.hashtag = resp.items;
-            var t1 = performance.now();
-            $scope.gettime = (t1 - t0);
-            $scope.$apply();
+            $window.localStorage.setItem('tweetforhashtag', JSON.stringify(resp));
+            $scope.tweetforhashtag = JSON.parse($window.localStorage.getItem('tweetforhashtag')).items;
           });
       }
 
@@ -78,7 +75,12 @@ app.controller('Tinytwitter', function ($scope, $location, $window) {
             });
     }
 
-    $scope.miid = function(){
+    $scope.miid = function(hashtagid){
+        $window.localStorage.setItem('slctht', JSON.stringify(hashtagid));
+        $scope.slctht = JSON.parse($window.localStorage.getItem('slctht')); 
+        console.log($scope.slctht);
+        $scope.getAsh();
+        console.log($scope.tweetforhashtag);
         $location.path('/hashtag');
     };
 

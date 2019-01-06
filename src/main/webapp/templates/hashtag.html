@@ -1,16 +1,8 @@
 <div ng-controller="Tinytwitter" style="margin : 15px;">
     <h1>Tiny Twitt</h1>
     <br>
-    <form ng-submit="getAsh()">
-        <h2>Get tweet by hashtagID</h2>
-        <label>Hashtag ID : </label>
-        <input class="form-control" ng-model="hash" />
-        <br>
-        <input class="btn btn-primary" type="submit" value="Get">
-
-    </form>
-    <br>
-    <div ng-repeat="x in hashtag">
+    
+    <div ng-repeat="x in tweetforhashtag">
         <h3>auteur : {{x.auteur}}</h3>
         <p>tweet : {{x.tweet}}</p>
     </div>
