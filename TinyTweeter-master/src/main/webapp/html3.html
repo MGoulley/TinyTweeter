@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html ng-app="plunker">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Tiny Tweeter</title>
+    <script src="/jssources/angular.js"></script>
+<script src="/jssources/angular-router.js"></script>
+  <script src="app.js"></script>
+</head>
+  
+<body ng-controller="Tinytwitter" style="margin : 15px;">
+  <h1>Tiny Twitter</h1>
+  <br>
+  <form ng-submit="addUser()">
+    <h2>Adding a user</h2>
+    <label>Username : </label>
+    <input class="form-control" ng-model="adduser" />
+    <br>
+    <input class="btn btn-primary" type="submit" value="Add">
+  </form>
+  <br>
+  <form ng-submit="follow()">
+    <h2>Follow</h2>
+    <label>Followed username : </label>
+    <input class="form-control" ng-model="followed" />
+    <br>
+    <label>Follower username : </label>
+    <input class="form-control" ng-model="follower" />
+    <br>
+    <input class="btn btn-primary" type="submit" value="Follow">
+  </form>
+  <br>
+  <form ng-submit="sendMsg()">
+    <h2>Post Message</h2>
+    <label>UsernameID : </label>
+    <input class="form-control" ng-model="senderID" />
+    <br>
+    <label>Username : </label>
+    <input class="form-control" ng-model="sender" />
+    <br>
+    <label>Message : </label>
+    <textarea class="form-control" rows="2" ng-model="message"></textarea>
+    <br>
+    <br>
+    <input class="btn btn-primary" type="submit" value="Send">
+  </form>
+  <br>
+    <h4>Time : {{posttime}} ms</h4>
+  <br>
+  <br>
+  
+  <form ng-submit="getMsg()">
+    <h2>Get Messages</h2>
+    <label>Username : </label>
+    <input class="form-control" ng-model="receiver" />
+    <br>
+    <input class="btn btn-primary" type="submit" value="Get">
+
+  </form>
+  
+  
+  <br>
+ <br>
+  <div ng-repeat="x in tweets">
+    <h3>{{x.auteur}}</h3>
+    <p>{{x.tweet}}</p>
+  </div>
+<br>
+    <h4>Time : {{gettime}} ms</h4>
+
+
+
+
+   <script>
+    var init = function() {
+      console.log("init called");
+      window.init();
+    };
+  </script>
+
+  <script src="https://apis.google.com/js/client.js?onload=init"></script>
+
+</body>
+
+</html>

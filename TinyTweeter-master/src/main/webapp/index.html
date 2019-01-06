@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="accueil.css">
+    <title>Tiny Tweeter</title>
+    <script src="/jssources/angular.js"></script>
+    <script src="/jssources/angular-ui-router.js"></script>
+    <script src="app.js"></script>
+</head>
+
+<body ng-app="app">
+    <div ng-controller="controller">
+        <div ui-view></div>
+    </div>
+
+    <div ng-controller="Tinytwitter">
+        <script>
+            var init = function () {
+                console.log("init called");
+                window.init();
+            };
+        </script>
+    </div>
+
+    <script src="https://apis.google.com/js/client.js?onload=init"></script>
+</body>
+
+</html>

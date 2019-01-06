@@ -1,0 +1,76 @@
+<div class="utilisateur">
+    <table border="1">
+        <tr style="height: 25%">
+            <td class="left" ng-controller="utilisateur">
+                <center>
+                    <p>Bienvenue {{user.username}} !</p>
+                </center>
+                <p>Votre ID : {{user.utilisateurID}}</p>
+                <p>Vos abonnements : </p>
+                <p>Vos followers : </p>
+                <p>Vos tweets : </p>
+            </td>
+            <td class="middle">
+                <form ng-submit="sendMsg()" ng-controller="Tinytwitter">
+                    <div class="lpt">
+                        <center>
+                            <p>Poster un tweet</p>
+                        </center>
+                    </div>
+                    <div class="ipt">
+                        <textarea class="form-control" rows="10" ng-model="message"></textarea>
+                    </div>
+                    <div class="bpt">
+                        <input type="submit" value="Envoyer" style="float: right; width: 30%; height: 100%;">
+                    </div>
+                </form>
+            </td>
+            <td class="right">
+                <center>
+                    <p>Tinytweeter</p>
+                </center>
+                <br/>
+                <center>
+                    <p>Temps d'execution :</p>
+                </center>
+                <br/>
+                <p>Creation/Acces utilisateur: {{timeuser}}</p>
+            </td>
+        </tr>
+        <tr class="secondeligne" ng-controller="utilisateur">
+            <td>
+                <div>
+                    <p>Consulter hashtag</p>
+                    <div ng-repeat="y in hashtags">
+                        <div class="hashtag">
+                            <p># {{y.hashtag}}</p>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <center>
+                    <p>Timeline</p>
+                    <br/>
+                    <div ng-repeat="x in timeline">
+                        <div class="tweet">
+                            <h3>{{x.auteur}}</h3>
+                            <p>{{x.tweet}}</p>
+                        </div>
+                    </div>
+                </center>
+            </td>
+            <td>
+                <div>
+                    <p>Consulter les utilisateurs</p>
+                    <br/>
+                    <div ng-repeat="z in users">
+                        <div class="user">
+                            <p>{{z.username}}</p>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
