@@ -82,6 +82,7 @@ app.controller('Tinytwitter', function ($scope, $location, $window) {
             message: $scope.message
         }).execute(
             function (resp) {
+                // "refresh" la page
                 $scope.getMsg();
                 $scope.pseudo = $scope.user.username;
                 $scope.connection();
@@ -103,10 +104,10 @@ app.controller('Tinytwitter', function ($scope, $location, $window) {
             followID: followedID
         }).execute(
             function (resp) {
-                console.log(resp);
-                console.log(followedID);
-                console.log($scope.user);
-
+                // "refresh" la page
+                $scope.getMsg();
+                $scope.pseudo = $scope.user.username;
+                $scope.connection();
             });
     }
 
