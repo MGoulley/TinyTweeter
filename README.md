@@ -25,7 +25,7 @@ Pour lire les 10 derniers message avec 1000 followers le temps moyen est de 3,35
 
 Pour lire les 10 derniers messages avec 5000 followers le temps moyen est de 5,7 ms avec une variance de 2,32 , pour les 50 derniers messages avec 5000 followers de 16,54 ms et une variance de 7,27. Et enfin pour les 100 derniers messages le temps est de 26,25 ms et une variance de 16,32.
 
-### Récuêration tweet d'un hashtag
+### Récupération tweet d'un hashtag
 #### En local 
 
 Pour récupérer les 50 derniers messages le temps moyen est de 9,8ms avec une variance de 37,6.
