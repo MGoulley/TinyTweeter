@@ -13,6 +13,9 @@ Pour écrire un tweet avec 5000 followers en moyenne le temps est de 17,7 ms ave
 #### Sur Google App Engine
 
 Pour poster un tweet avec 100 followers il faut en moyenne 347 ms avec une variance de 3171.
+
+Pour poster un tweet avec 300 followers le emps moyen est de 335 ms avec une variance de 1074.
+
 ### Lecture
 
 Pour lire les 10 derniers message avec 100 followers le temps moyen est de 3,32 ms avec une variance de 0,87 , pour les 50 derniers messages avec 100 followers de 14,03 ms et une variance de 4,54. Et enfin pour les 100 derniers messages le temps est de 28,57 ms et une variance de 51,7.
