@@ -80,9 +80,11 @@ app.factory("factory", function () {
 app.controller("utilisateur", function ($scope, $location, factory) {
     $scope.user = factory.getuser();
     $scope.users = factory.getusers();
-    $scope.timeuser = factory.gettimeuser();
     $scope.timeline = factory.gettimeline();
-    $scope.hashtags = factory.gethashtags();  
+    $scope.hashtags = factory.gethashtags(); 
+    
+    $scope.timeuser = factory.gettimeuser();
+    $scope.timetimeline = factory.gettimetimeline();
 });
 
 app.config(function ($stateProvider, $urlRouterProvider) {
@@ -111,8 +113,6 @@ app.controller('Tinytwitter', function ($scope, $location, $window, factory) {
             limite: 10
         }).execute(
             function (resp) {
-                console.log("utilisateurs : ");
-                console.log(resp);
                 factory.setusers(resp.items);
             });
     }
@@ -134,7 +134,6 @@ app.controller('Tinytwitter', function ($scope, $location, $window, factory) {
             message: $scope.message
         }).execute(
             function (resp) {
-                console.log(resp);
                 $location.path('/utilisateur');
             });
 
@@ -173,13 +172,13 @@ app.controller('Tinytwitter', function ($scope, $location, $window, factory) {
                     $scope.getusers(); 
                     console.log(resp);
                     $location.path('/utilisateur');
-                    $scope.$applyAsync();
+                    //$scope.$applyAsync();
                 }
             });
     }
 
     $window.init = function () {
-        var rootApi = 'http://localhost:8080/_ah/api';
+        var rootApi = 'http://tinytweet.appspot.com/_ah/api';
         gapi.client.load('tinytweeter', 'v1', function () {
             console.log("API Loaded");
         }, rootApi);
