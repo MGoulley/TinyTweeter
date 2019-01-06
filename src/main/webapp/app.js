@@ -19,9 +19,12 @@ app.config(function ($stateProvider) {
 
 app.controller('Tinytwitter', function ($scope, $location, $window) {
     $scope.user = JSON.parse($window.localStorage.getItem('user'));  
-    $scope.timeline = JSON.parse($window.localStorage.getItem('timeline')).items;  
-    $scope.hashtags = JSON.parse($window.localStorage.getItem('hashtags')).items;
-    $scope.users = JSON.parse($window.localStorage.getItem('users')).items;
+    console.log("Mes");
+    console.log(JSON.parse($window.localStorage.getItem('timeline')));
+    $scope.timeline = (JSON.parse($window.localStorage.getItem('timeline'))!==null) ? JSON.parse($window.localStorage.getItem('timeline')).items : JSON.parse($window.localStorage.getItem('timeline'));   
+    $scope.hashtags = (JSON.parse($window.localStorage.getItem('hashtags'))!==null) ? JSON.parse($window.localStorage.getItem('hashtags')).items : JSON.parse($window.localStorage.getItem('hashtags'));  
+    $scope.users = (JSON.parse($window.localStorage.getItem('users'))!==null) ? JSON.parse($window.localStorage.getItem('users')).items : JSON.parse($window.localStorage.getItem('users'));  
+
     $scope.timeUser = $window.localStorage.getItem('timeuser');
     $scope.timeTimeline = $window.localStorage.getItem('timeTimeline');
     $scope.timehashtags = $window.localStorage.getItem('timehashtags');
