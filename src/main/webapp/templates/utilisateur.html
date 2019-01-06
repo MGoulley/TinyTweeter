@@ -70,6 +70,7 @@
                     <div ng-repeat="z in users">
                         <div class="user">
                             <p>{{z.username}}</p>
+                            <button ng-click="follow(z.utilisateurID);">Follow {{z.username}}</button>
                         </div>
                     </div>
                 </div>

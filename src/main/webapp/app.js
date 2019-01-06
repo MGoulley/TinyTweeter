@@ -53,7 +53,7 @@ app.controller('Tinytwitter', function ($scope, $location, $window) {
         }).execute(
             function (resp) {
                 $window.localStorage.setItem('timeline', JSON.stringify(resp));
-                $scope.timeline = JSON.parse($window.localStorage.getItem('timeline')).items;  
+                $scope.timeline = JSON.parse($window.localStorage.getItem('timeline')).items; 
             });
     }
 
@@ -97,6 +97,19 @@ app.controller('Tinytwitter', function ($scope, $location, $window) {
         $location.path('/hashtag');
     };
 
+    $scope.follow = function(followedID) {
+        gapi.client.tinytweeter.add_follow({
+            userID: $scope.user.utilisateurID,
+            followID: followedID
+        }).execute(
+            function (resp) {
+                console.log(resp);
+                console.log(followedID);
+                console.log($scope.user);
+
+            });
+    }
+
     $scope.connection = function () {
         var t0 = performance.now();
         gapi.client.tinytweeter.create_user({
@@ -112,23 +125,23 @@ app.controller('Tinytwitter', function ($scope, $location, $window) {
                     $window.localStorage.setItem('timeuser', JSON.stringify($scope.timeUser));
 
                     t0 = performance.now();
-                    $scope.$applyAsync(function(){$scope.getMsg()});
+                    $scope.getMsg();
                     $scope.timeTimeline = performance.now() - t0;
                     $window.localStorage.setItem('timeTimeline', JSON.stringify($scope.timeTimeline));
 
                     t0 = performance.now();
-                    $scope.$apply(function(){$scope.gethashtags()});
+                    $scope.gethashtags();
                     $scope.timehashtags = performance.now() - t0;
                     $window.localStorage.setItem('timehashtags', JSON.stringify($scope.timehashtags));
 
                     t0 = performance.now();
-                    $scope.$apply(function(){$scope.getusers()});
+                    $scope.getusers();
                     $scope.timeusers = performance.now() - t0;
                     $window.localStorage.setItem('timeusers', JSON.stringify($scope.timeusers));               
                     $scope.$apply(function(){$location.path('/utilisateur')});           
                 }
             });         
-    };
+    }
 
     $window.init = function () {
         $window.localStorage.clear();
